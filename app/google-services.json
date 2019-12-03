@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "328527132312",
+    "firebase_url": "https://wis-joker.firebaseio.com",
+    "project_id": "wis-joker",
+    "storage_bucket": "wis-joker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328527132312:android:5899cf444c85286a7042ed",
+        "android_client_info": {
+          "package_name": "com.jack.wisjoker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328527132312-prbhisegcefocq7d9np2q9t5uo7ro030.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jack.wisjoker",
+            "certificate_hash": "490f1221be54caab19fbe8c1ef7d55e19d0d796a"
+          }
+        },
+        {
+          "client_id": "328527132312-fs5f4e052fuelg6f0eqd142ce424b0ar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIgYXnG3O2UokPQhNDA47YCYWyKWChw2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328527132312-fs5f4e052fuelg6f0eqd142ce424b0ar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
