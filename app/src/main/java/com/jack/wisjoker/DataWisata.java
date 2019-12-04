@@ -1,6 +1,9 @@
 package com.jack.wisjoker;
 
-public class DataWisata {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DataWisata implements Parcelable {
     public String namaTempat, lokasi, deskripsi, imgUrl;
     public DataWisata() {
     }
@@ -11,6 +14,25 @@ public class DataWisata {
         this.deskripsi = deskripsi;
         this.imgUrl = imgUrl;
     }
+
+    protected DataWisata(Parcel in) {
+        namaTempat = in.readString();
+        lokasi = in.readString();
+        deskripsi = in.readString();
+        imgUrl = in.readString();
+    }
+
+    public static final Creator<DataWisata> CREATOR = new Creator<DataWisata>() {
+        @Override
+        public DataWisata createFromParcel(Parcel in) {
+            return new DataWisata(in);
+        }
+
+        @Override
+        public DataWisata[] newArray(int size) {
+            return new DataWisata[size];
+        }
+    };
 
     public String getNamaTempat() {
         return namaTempat;
@@ -42,5 +64,18 @@ public class DataWisata {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(namaTempat);
+        dest.writeString(lokasi);
+        dest.writeString(deskripsi);
+        dest.writeString(imgUrl);
     }
 }
