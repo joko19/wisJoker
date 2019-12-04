@@ -35,15 +35,6 @@ public class WisataAdapter extends RecyclerView.Adapter<WisataAdapter.MyViewHold
         v = LayoutInflater.from(mContext).inflate(R.layout.list_wisata,viewGroup,false);
         final MyViewHolder iniholder = new MyViewHolder(v);
 
-        iniholder.baris_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent inidetail = new Intent(context, DetailWisata.class);
-                inidetail.putExtra(DetailWisata.EXTRA_WISATA, mData.get(i));
-                context.startActivity(inidetail);
-            }
-        });
         return iniholder;
     }
 
@@ -63,6 +54,7 @@ public class WisataAdapter extends RecyclerView.Adapter<WisataAdapter.MyViewHold
                 Context context = v.getContext();
                 Intent inidetail = new Intent(context, DetailWisata.class);
                 inidetail.putExtra(DetailWisata.EXTRA_WISATA, mData.get(i));
+                inidetail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(inidetail);
             }
         });

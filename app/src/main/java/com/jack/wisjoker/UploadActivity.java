@@ -134,7 +134,7 @@ public class UploadActivity extends AppCompatActivity {
             progressDialog.show();
 
             // Creating second StorageReference.
-            StorageReference storageReference2nd = storageReference.child(storagePath + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
+            final StorageReference storageReference2nd = storageReference.child(storagePath + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
 
             // Adding addOnSuccessListener to second StorageReference.
             storageReference2nd.putFile(FilePathUri)
@@ -143,24 +143,38 @@ public class UploadActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             // Getting image name from EditText and store into string variable.
-                            String TempName = edtName.getText().toString().trim();
-                            String TempLokasi = edtLocation.getText().toString().trim();
-                            String TempDeskripsi = edtDescription.getText().toString().trim();
+                            final String TempName = edtName.getText().toString().trim();
+                            final String TempLokasi = edtLocation.getText().toString().trim();
+                            final String TempDeskripsi = edtDescription.getText().toString().trim();
 
                             // Hiding the progressDialog after done uploading.
                             progressDialog.dismiss();
 
                             // Showing toast message after done uploading.
                             Toast.makeText(getApplicationContext(), "Image Uploaded Successfully ", Toast.LENGTH_LONG).show();
+//
+//                            @SuppressWarnings("VisibleForTests")
+//                            DataWisata imageUploadInfo = new DataWisata(TempName, TempLokasi, TempDeskripsi, taskSnapshot.getUploadSessionUri().toString());
+//
+//                            // Getting image upload ID.
+//                            final String ImageUploadId = databaseReference.push().getKey();
+//
+//                            // Adding image upload id s child element into databaseReference.
+//                            databaseReference.child(ImageUploadId).setValue(imageUploadInfo);
 
-                            @SuppressWarnings("VisibleForTests")
-                            DataWisata imageUploadInfo = new DataWisata(TempName, TempLokasi, TempDeskripsi, taskSnapshot.getUploadSessionUri().toString());
 
-                            // Getting image upload ID.
-                            String ImageUploadId = databaseReference.push().getKey();
+                            //fix
+                            storageReference2nd.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String url = uri.toString();
+                                    DataWisata upload = new DataWisata(TempName, TempLokasi, TempDeskripsi, url);
+                                    String uploadId = databaseReference.push().getKey();
+                                    databaseReference.child(uploadId).setValue(upload);
+                                }
+                            });
 
-                            // Adding image upload id s child element into databaseReference.
-                            databaseReference.child(ImageUploadId).setValue(imageUploadInfo);
+
                         }
                     })
                     // If something goes wrong .

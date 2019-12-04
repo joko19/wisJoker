@@ -43,9 +43,9 @@ public class HomeActivity extends AppCompatActivity {
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             dataWisata = new ArrayList<>();
             for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                DataWisata berita =snapshot.getValue(DataWisata.class);
+                DataWisata wisata =snapshot.getValue(DataWisata.class);
 
-                dataWisata.add(berita);
+                dataWisata.add(wisata);
             }
             WisataAdapter wisataAdapter = new WisataAdapter(getApplicationContext(), dataWisata);
             if (wisataAdapter != null){
@@ -53,8 +53,6 @@ public class HomeActivity extends AppCompatActivity {
 //                cekKoneksi.setVisibility(View.GONE);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(wisataAdapter);
-            } else {
-
             }
         }
 
