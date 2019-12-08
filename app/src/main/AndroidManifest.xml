@@ -14,9 +14,10 @@
         <activity android:name=".DetailWisata"></activity>
         <activity android:name=".UploadActivity" />
         <activity android:name=".AdminActivity" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
+        <activity android:name=".admin.HomeAdmin"/>
+        <activity android:name=".admin.DetailAdmin"
+            android:parentActivityName=".admin.HomeAdmin"/>
+        <activity android:name=".admin.UpdateAdmin"/>
         <activity
             android:name=".HomeActivity"
             android:parentActivityName=".MainActivity" />

@@ -4,8 +4,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class DataWisata implements Parcelable {
-    public String namaTempat, lokasi, deskripsi, imgUrl;
+    public String namaTempat, lokasi, deskripsi, imgUrl, key;
     public DataWisata() {
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public DataWisata(String namaTempat, String lokasi, String deskripsi, String imgUrl) {

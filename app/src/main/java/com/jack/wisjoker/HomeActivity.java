@@ -10,13 +10,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.jack.wisjoker.ui.login.LoginActivity;
 
 import java.security.AccessController;
 import java.util.ArrayList;
@@ -27,12 +28,16 @@ public class HomeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<DataWisata> dataWisata;
+    TextView cekKoneksi;
+    ProgressBar progressBar;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference reference = database.getReference("All_Image_Uploads_Database");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        cekKoneksi = findViewById(R.id.tv_cek_koneksi);
+        progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.rv_home);
         getSupportActionBar().setTitle("Wisata Mojokerto");
         getData();
@@ -49,8 +54,8 @@ public class HomeActivity extends AppCompatActivity {
             }
             WisataAdapter wisataAdapter = new WisataAdapter(getApplicationContext(), dataWisata);
             if (wisataAdapter != null){
-//                progressBar.setVisibility(View.GONE);
-//                cekKoneksi.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                cekKoneksi.setVisibility(View.GONE);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(wisataAdapter);
             }

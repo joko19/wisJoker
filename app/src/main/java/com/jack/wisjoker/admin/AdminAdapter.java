@@ -1,4 +1,4 @@
-package com.jack.wisjoker;
+package com.jack.wisjoker.admin;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,32 +14,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.jack.wisjoker.DataWisata;
+import com.jack.wisjoker.DetailWisata;
+import com.jack.wisjoker.R;
+import com.jack.wisjoker.WisataAdapter;
 
-import java.security.AccessControlContext;
 import java.util.List;
 
-public class WisataAdapter extends RecyclerView.Adapter<WisataAdapter.MyViewHolder> {
+public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<DataWisata> mData;
 
-    public WisataAdapter(Context mContext, List<DataWisata> mData) {
+    public AdminAdapter(Context mContext, List<DataWisata> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
+    public AdminAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
 
         View v;
         v = LayoutInflater.from(mContext).inflate(R.layout.list_wisata,viewGroup,false);
-        final MyViewHolder iniholder = new MyViewHolder(v);
+        final AdminAdapter.MyViewHolder iniholder = new AdminAdapter.MyViewHolder(v);
 
         return iniholder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull AdminAdapter.MyViewHolder myViewHolder, final int i) {
         myViewHolder.tv_nama.setText(mData.get(i).getNamaTempat());
 //        myViewHolder.tv_lokasi.setText(mData.get(i).getLokasi());
         myViewHolder.tv_deskripsi.setText(mData.get(i).getDeskripsi());
@@ -53,7 +56,7 @@ public class WisataAdapter extends RecyclerView.Adapter<WisataAdapter.MyViewHold
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent inidetail = new Intent(context, DetailWisata.class);
+                Intent inidetail = new Intent(context, DetailAdmin.class);
                 inidetail.putExtra(DetailWisata.EXTRA_WISATA, mData.get(i));
                 inidetail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(inidetail);

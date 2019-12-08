@@ -1,7 +1,4 @@
-package com.jack.wisjoker;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package com.jack.wisjoker.admin;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -17,6 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -25,20 +26,26 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.jack.wisjoker.admin.HomeAdmin;
+import com.jack.wisjoker.DataWisata;
+import com.jack.wisjoker.R;
+import com.jack.wisjoker.UploadActivity;
 
 import java.io.IOException;
 
-public class UploadActivity extends AppCompatActivity {
+import static com.jack.wisjoker.admin.DetailAdmin.EXTRA_WISATA;
+
+public class UpdateAdmin extends AppCompatActivity {
 
     String storagePath = "images";
     String Database_Path = "All_Image_Uploads_Database";
     private EditText edtName, edtLocation, edtDescription;
     private ImageView cover;
     private Button btnChoose, btnUpload;
-
+    DataWisata dataWisata;
     // Creating URI.
     Uri FilePathUri;
+    private String TempName, TempLokasi, TempDeskripsi;
+    // Getting image name from EditText and store into string variable.
 
     // Creating StorageReference and DatabaseReference object.
     StorageReference storageReference;
@@ -52,7 +59,7 @@ public class UploadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
-        getSupportActionBar().setTitle("Upload Page");
+        getSupportActionBar().setTitle("Update Data");
         edtName = findViewById(R.id.edt_NamaTempat);
         edtLocation = findViewById(R.id.edt_lokasi);
         edtDescription = findViewById(R.id.edt_deskripsi);
@@ -61,7 +68,19 @@ public class UploadActivity extends AppCompatActivity {
         btnUpload = findViewById(R.id.ButtonUploadImage);
         storageReference = FirebaseStorage.getInstance().getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
-        progressDialog = new ProgressDialog(UploadActivity.this);
+        progressDialog = new ProgressDialog(UpdateAdmin.this);
+
+        //parsing data lama
+        dataWisata = getIntent().getParcelableExtra(EXTRA_WISATA);
+        edtName.setText(dataWisata.getNamaTempat());
+        edtDescription.setText(dataWisata.getDeskripsi());
+        edtLocation.setText(dataWisata.getLokasi());
+
+        //simpan data sementara
+
+        Glide.with(UpdateAdmin.this)
+                .load(dataWisata.getImgUrl())
+                .into(cover);
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +98,7 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 UploadImageFileToFirebaseStorage();
-                Intent pindah = new Intent(UploadActivity.this, HomeAdmin.class);
+                Intent pindah = new Intent(UpdateAdmin.this, HomeAdmin.class);
                 startActivity(pindah);
             }
         });
@@ -127,11 +146,15 @@ public class UploadActivity extends AppCompatActivity {
     public void UploadImageFileToFirebaseStorage() {
 
         // Checking whether FilePathUri Is empty or not.
+
         if (FilePathUri != null) {
 
             // Setting progressDialog Title.
             progressDialog.setTitle("Image is Uploading...");
 
+            final String TempName = edtName.getText().toString().trim();
+            final String TempLokasi = edtLocation.getText().toString().trim();
+            final String TempDeskripsi = edtDescription.getText().toString().trim();
             // Showing progressDialog.
             progressDialog.show();
 
@@ -143,11 +166,6 @@ public class UploadActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            // Getting image name from EditText and store into string variable.
-                            final String TempName = edtName.getText().toString().trim();
-                            final String TempLokasi = edtLocation.getText().toString().trim();
-                            final String TempDeskripsi = edtDescription.getText().toString().trim();
 
                             // Hiding the progressDialog after done uploading.
                             progressDialog.dismiss();
@@ -172,7 +190,7 @@ public class UploadActivity extends AppCompatActivity {
                                     String url = uri.toString();
                                     DataWisata upload = new DataWisata(TempName, TempLokasi, TempDeskripsi, url);
 //                                    String uploadId = databaseReference.push().getKey();
-                                    String uploadId = TempName;
+                                    String uploadId = dataWisata.namaTempat;
                                     databaseReference.child(uploadId).setValue(upload);
                                 }
                             });
@@ -189,7 +207,7 @@ public class UploadActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             // Showing exception erro message.
-                            Toast.makeText(UploadActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(UpdateAdmin.this, exception.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     })
 
@@ -205,9 +223,16 @@ public class UploadActivity extends AppCompatActivity {
                     });
         }
         else {
+            Toast.makeText(UpdateAdmin.this, "Please Select Image or Add Image Name", Toast.LENGTH_LONG).show();
 
-            Toast.makeText(UploadActivity.this, "Please Select Image or Add Image Name", Toast.LENGTH_LONG).show();
-
+            final String TempName = edtName.getText().toString().trim();
+            final String TempLokasi = edtLocation.getText().toString().trim();
+            final String TempDeskripsi = edtDescription.getText().toString().trim();
+                    DataWisata upload = new DataWisata(TempName, TempLokasi, TempDeskripsi, dataWisata.getImgUrl());
+//                                    String uploadId = databaseReference.push().getKey();
+                    String uploadId = dataWisata.namaTempat;
+                    databaseReference.child(uploadId).setValue(upload);
+                }
+            }
         }
-    }
-}
+

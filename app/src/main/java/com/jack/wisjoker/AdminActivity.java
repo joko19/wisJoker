@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jack.wisjoker.admin.HomeAdmin;
+
 public class AdminActivity extends AppCompatActivity {
 
     @Override
@@ -27,7 +29,7 @@ public class AdminActivity extends AppCompatActivity {
                 String user = usernameEditText.getText().toString();
                 String pass = passwordEditText.getText().toString();
                 if (user.equals("admin") && pass.equals("admin")){
-                    Intent pageUpload = new Intent(AdminActivity.this, UploadActivity.class);
+                    Intent pageUpload = new Intent(AdminActivity.this, HomeAdmin.class);
                     startActivity(pageUpload);
                 }
                 else {

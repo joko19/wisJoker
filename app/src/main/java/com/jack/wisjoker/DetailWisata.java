@@ -20,7 +20,7 @@ public class DetailWisata extends AppCompatActivity {
         setContentView(R.layout.activity_detail_wisata);
 
         dataWisata =getIntent().getParcelableExtra(EXTRA_WISATA);
-
+        getSupportActionBar().setTitle(dataWisata.getNamaTempat());
         inisialisasi();
         setData();
 
