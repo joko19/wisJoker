@@ -223,8 +223,6 @@ public class UpdateAdmin extends AppCompatActivity {
                     });
         }
         else {
-            Toast.makeText(UpdateAdmin.this, "Please Select Image or Add Image Name", Toast.LENGTH_LONG).show();
-
             final String TempName = edtName.getText().toString().trim();
             final String TempLokasi = edtLocation.getText().toString().trim();
             final String TempDeskripsi = edtDescription.getText().toString().trim();
