@@ -35,6 +35,6 @@
         android:layout_toRightOf="@id/img_poster"
         android:textColor="@color/colorBlack"
         tools:text="@string/deskripsi"
-        android:maxLines="3"/>
+        android:maxLines="5"/>
 
 </RelativeLayout>
